@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./App.css";
+import Certificate from "./component/Certificate";
+import CreateCertificate from "./component/CreateCertificate";
+import Login from "./component/Login";
+import Home from "./component/Home";
+import ProtectedRoute from "./component/ProtectedRoute";
+import React from "react";
+import ThemeProvider from "./context/ThemeProvider";
+import UserProvider from "./context/UserProvider";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider>
+      <UserProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<ProtectedRoute component={<Home />} />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/certificate/*" element={<Certificate />} />
+            <Route
+              path="/create-certificate"
+              element={<ProtectedRoute component={<CreateCertificate />} />}
+            />
+          </Routes>
+        </BrowserRouter>
+      </UserProvider>
+    </ThemeProvider>
   );
 }
 
