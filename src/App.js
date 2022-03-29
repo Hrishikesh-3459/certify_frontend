@@ -9,29 +9,35 @@ import React from "react";
 import ThemeProvider from "./context/ThemeProvider";
 import VerifiedCertificate from "./component/VerifiedCertificate";
 import AuthProvider from "./context/AuthProvider";
+import UtilityProvider from "./context/UtilityProvider";
 
 function App() {
-	return (
-		<ThemeProvider>
-			<AuthProvider>
-				<BrowserRouter>
-					<Routes>
-						<Route path='/' element={<ProtectedRoute component={<Home />} />} />
-						<Route path='/login' element={<Login />} />
-						<Route
-							path='/certificate/*'
-							element={<ProtectedRoute component={<Certificate />} />}
-						/>
-						<Route
-							path='/create-certificate'
-							element={<ProtectedRoute component={<CreateCertificate />} />}
-						/>
-						<Route path='/verify/*' element={<VerifiedCertificate />} />
-					</Routes>
-				</BrowserRouter>
-			</AuthProvider>
-		</ThemeProvider>
-	);
+  return (
+    <UtilityProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route
+                path="/"
+                element={<ProtectedRoute component={<Home />} />}
+              />
+              <Route path="/login" element={<Login />} />
+              <Route
+                path="/certificate/:id"
+                element={<ProtectedRoute component={<Certificate />} />}
+              />
+              <Route
+                path="/create-certificate"
+                element={<ProtectedRoute component={<CreateCertificate />} />}
+              />
+              <Route path="/verify/:id" element={<VerifiedCertificate />} />
+            </Routes>
+          </BrowserRouter>
+        </AuthProvider>
+      </ThemeProvider>
+    </UtilityProvider>
+  );
 }
 
 export default App;

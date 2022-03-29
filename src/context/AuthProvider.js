@@ -11,12 +11,12 @@ export default function AuthProvider({ children }) {
     const userProfile = localStorage.getItem(profile);
 		const localData = userProfile ? JSON.parse(userProfile) : null;
 		console.log(localData);
-		// if (localData !== null && localData?.token) {
-		// 	createTokenizedFetch(localData.token);
-		// 	setUser({});
-		// } else {
-		// 	setUser(null);
-		// }
+		if (localData !== null && localData.token) {
+			createTokenizedFetch(localData.token);
+			setUser({});
+		} else {
+			setUser(null);
+		}
 	}, []);
 
 	const addUser = (data) => {
