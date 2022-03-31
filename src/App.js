@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./App.css";
-import Certificate from "./component/Certificate";
+// import Certificate from "./component/Certificate";
 import CreateCertificate from "./component/CreateCertificate";
 import Login from "./component/Login";
 import Home from "./component/Home";
@@ -23,10 +23,10 @@ function App() {
                 element={<ProtectedRoute component={<Home />} />}
               />
               <Route path="/login" element={<Login />} />
-              <Route
+              {/* <Route
                 path="/certificate/:id"
                 element={<ProtectedRoute component={<Certificate />} />}
-              />
+              /> */}
               <Route
                 path="/create-certificate"
                 element={<ProtectedRoute component={<CreateCertificate />} />}

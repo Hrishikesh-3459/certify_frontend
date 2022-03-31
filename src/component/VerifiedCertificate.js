@@ -86,6 +86,7 @@ const CreateImage = (src) => {
 const SideBox = ({ user, canvas }) => {
   const { openLoading, closeLoading } = useContext(UtilityContext);
   const link = `${frontUrl}/verify/${user.id}`;
+  const name = `${user.firstName} ${user.lastName}`;
   const generatePdf = () => {
     openLoading();
     const options = {
@@ -133,6 +134,11 @@ const SideBox = ({ user, canvas }) => {
         </IconButton>
       </Box>
       <Box
+        onClick={() => {
+          if (window && window.navigator && window.navigator.clipboard) {
+            window.navigator.clipboard.writeText(link);
+          }
+        }}
         sx={{
           mb: 4,
           p: 1,
@@ -168,6 +174,36 @@ const SideBox = ({ user, canvas }) => {
       <Button variant="contained" onClick={generatePdf}>
         Download PDF
       </Button>
+      <Box
+        sx={{
+          mt: 4,
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          alignItems: "center",
+        }}
+      >
+        <Typography variant="subtitle1">ID</Typography>
+        <Typography
+          sx={{
+            whiteSpace: "nowrap",
+            width: "100%",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
+          {user.id}
+        </Typography>
+        <Typography variant="subtitle1">Holder Name</Typography>
+        <Typography>{name}</Typography>
+        <Typography variant="subtitle1">Role</Typography>
+        <Typography>{user.role}</Typography>
+        <Typography variant="subtitle1">Issued Date</Typography>
+        <Typography>{formatDate(user.issueDate)}</Typography>
+        {/* <Typography variant="subtitle1">Joining Date</Typography>
+        <Typography>{formatDate(user.startDate)}</Typography>
+        <Typography variant="subtitle1">End Date</Typography>
+        <Typography>{formatDate(user.endDate)}</Typography> */}
+      </Box>
     </Box>
   );
 };
