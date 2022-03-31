@@ -49,11 +49,11 @@ const Login = () => {
         const res = await getFetch().post("/login", body);
         console.log(res);
         addToken(res.data.token);
+        navigate("/");
       } catch (e) {
         console.log(e.response);
       }
       closeLoading();
-      navigate("/");
     } catch (e) {
       console.log(e.response);
     }
