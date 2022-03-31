@@ -6,6 +6,7 @@ import {
   IconButton,
   TextField,
   Typography,
+  styled,
 } from "@mui/material";
 import React, { useState, useEffect, useContext, useRef } from "react";
 import { useNavigate, Link } from "react-router-dom";
@@ -13,6 +14,12 @@ import { UtilityContext } from "../context/UtilityProvider";
 import getFetch from "../libs/axiosClient";
 import { AuthContext } from "./../context/AuthProvider";
 import ConfirmModal from "./ConfirmModal";
+
+const StyledTextFeild = styled(TextField)({
+  "& .MuiInputBase-root": {
+    borderRadius: 0,
+  },
+});
 
 const ContentTable = ({ content, loadData }) => {
   const [open, setOpen] = useState(false);
@@ -136,7 +143,7 @@ const SearchBar = ({ text, setText }) => {
         maxWidth: "100%",
       }}
     >
-      <TextField
+      <StyledTextFeild
         value={text}
         onChange={(e) => {
           setText(e.target.value);

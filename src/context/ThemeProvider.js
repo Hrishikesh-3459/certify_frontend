@@ -1,8 +1,13 @@
 import React from "react";
 import { CssBaseline } from "@mui/material";
 import { createTheme, ThemeProvider as Provider } from "@mui/material/styles";
+import { red } from "@mui/material/colors";
 
-const theme = createTheme();
+const theme = createTheme({
+  palette : {
+    primary : red,
+  }
+});
 
 function ThemeProvider({ children }) {
   return (

@@ -1,10 +1,11 @@
-import { Box, Button, Typography } from "@mui/material";
+import { Box, Button, Grid, IconButton, Typography } from "@mui/material";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 import jsPDF from "jspdf";
 import { UtilityContext } from "../context/UtilityProvider";
 import getFetch, { frontUrl } from "../libs/axiosClient";
 import { useParams } from "react-router-dom";
+import { Facebook, LinkedIn, Twitter } from "@mui/icons-material";
 
 //720
 //1470
@@ -83,8 +84,10 @@ const CreateImage = (src) => {
 };
 
 const SideBox = ({ user, canvas }) => {
+  const { openLoading, closeLoading } = useContext(UtilityContext);
   const link = `${frontUrl}/verify/${user.id}`;
   const generatePdf = () => {
+    openLoading();
     const options = {
       orientation: "l",
       unit: "px",
@@ -101,31 +104,67 @@ const SideBox = ({ user, canvas }) => {
       "NONE"
     );
     pdf.save(`${user.firstName}_internship_completion`);
+    closeLoading();
   };
   return (
     <Box
       sx={{
-        backgroundColor: "white",
         height: "100%",
         borderRadius: "1rem",
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
-        p: 4,
-        gap: 4,
+        color: "rgb(250,240,240)",
+        py: 2,
       }}
     >
-      <Typography variant="subtitle1">
-        Link : &nbsp;{" "}
+      <QRCodeCanvas value={link} id="qrcanvas" style={{ display: "none" }} />
+      <Typography variant="h5" sx={{ px: 1 }}>
+        Share this certificate
+      </Typography>
+      <Box sx={{ display: "flex", gap: 2, mb: 4 }}>
+        <IconButton sx={{ color: "inherit" }}>
+          <Facebook fontSize="large" />
+        </IconButton>
+        <IconButton sx={{ color: "inherit" }}>
+          <Twitter fontSize="large" />
+        </IconButton>
+        <IconButton sx={{ color: "inherit" }}>
+          <LinkedIn fontSize="large" />
+        </IconButton>
+      </Box>
+      <Box
+        sx={{
+          mb: 4,
+          p: 1,
+          width: "100%",
+          backgroundColor: "rgb(250,240,240)",
+          overflow: "hidden",
+          borderRadius: "4px",
+          position: "relative",
+          cursor: "pointer",
+          ":hover": {
+            "::before": {
+              content: "'COPY'",
+              position: "absolute",
+              top: 0,
+              right: 0,
+              height: "100%",
+              p: 1,
+              backgroundColor: "primary.main",
+              color: "rgb(250,240,240)",
+            },
+          },
+        }}
+      >
         <Typography
-          variant="subtitle1"
-          variantMapping={{ subtitle1: "a" }}
-          href={link}
+          color="rgb(50,0,0)"
+          sx={{
+            whiteSpace: "nowrap",
+          }}
         >
           {link}
         </Typography>
-      </Typography>
-      <QRCodeCanvas value={link} id="qrcanvas" />
+      </Box>
       <Button variant="contained" onClick={generatePdf}>
         Download PDF
       </Button>
@@ -213,33 +252,67 @@ function VerifiedCertificate() {
       {user && (
         <Box
           sx={{
-            display: "grid",
-            gridTemplateColumns: "3fr 2fr",
-            p: 4,
-            gap: 2,
-            backgroundColor: "primary.main",
-            minHeight: "100vh",
+            backgroundColor: "rgb(30,30,30)",
           }}
         >
           <Box
             sx={{
-              width: "100%",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              px: 4,
+              py: 2,
+              boxShadow: "0px 0px 10px 0px rgb(0,0,0)",
             }}
           >
-            <canvas
-              width={certificate.width}
-              height={certificate.height}
-              ref={canvas}
-              style={{
-                width: `${Math.floor(certificate.width / 4)}px`,
-                height: `${Math.floor(certificate.height / 4)}px`,
+            <Typography
+              variant="h4"
+              color="white"
+              sx={{
+                fontFamily: "'Libre Franklin', sans-serif",
+                fontWeight: "800",
               }}
-            />
+            >
+              Internship Certificate
+            </Typography>
           </Box>
-          <SideBox user={user} canvas={canvas} />
+          <Box
+            sx={{
+              p: 4,
+              minHeight: "100vh",
+            }}
+          >
+            <Grid
+              container
+              spacing={2}
+              sx={{
+                minHeight: "100%",
+              }}
+            >
+              <Grid item xs={12} lg={3}>
+                <SideBox user={user} canvas={canvas} />
+              </Grid>
+              <Grid item xs={12} lg={9}>
+                <Box
+                  sx={{
+                    width: "100%",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <canvas
+                    width={certificate.width}
+                    height={certificate.height}
+                    ref={canvas}
+                    style={{
+                      width: `${Math.floor(certificate.width / 4)}px`,
+                      maxWidth: "100%",
+                      boxShadow: "0px 0px 10px 5px rgb(0,0,0)",
+                      borderRadius: "10px",
+                    }}
+                  />
+                </Box>
+              </Grid>
+            </Grid>
+          </Box>
         </Box>
       )}
     </Box>

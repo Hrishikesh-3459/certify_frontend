@@ -3,9 +3,9 @@ import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import getFetch from "../libs/axiosClient";
 import { UtilityContext } from "../context/UtilityProvider";
-import AdapterDateFns from '@mui/lab/AdapterDateFns';
-import LocalizationProvider from '@mui/lab/LocalizationProvider';
-import DatePicker from '@mui/lab/DatePicker';
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import DatePicker from "@mui/lab/DatePicker";
 
 function CreateCertificate() {
   const navigate = useNavigate();
@@ -55,7 +55,11 @@ function CreateCertificate() {
           Home
         </Button>
       </Box>
-      <Box sx={{ my: 4 }}>
+      <Box
+        sx={{
+          py: 4,
+        }}
+      >
         <Container maxWidth="md">
           <Box
             sx={{
